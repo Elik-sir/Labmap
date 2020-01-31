@@ -74,7 +74,7 @@ export default class App extends React.PureComponent {
   render() {
     return (
       <div>
-        <button className="btn" onClick={() => this.zoomOnViewerCenter_1()}>
+        {/* <button className="btn" onClick={() => this.zoomOnViewerCenter_1()}>
           Zoom in
         </button>
         <button className="btn" onClick={() => this.fitSelection_1()}>
@@ -86,7 +86,7 @@ export default class App extends React.PureComponent {
 
         <strong>OR</strong>
         {/* keep attention in this way onZoom and onPan cb aren't called */}
-        <button className="btn" onClick={() => this.zoomOnViewerCenter_2()}>
+        {/* <button className="btn" onClick={() => this.zoomOnViewerCenter_2()}>
           Zoom in
         </button>
         <button className="btn" onClick={() => this.fitSelection_2()}>
@@ -94,9 +94,9 @@ export default class App extends React.PureComponent {
         </button>
         <button className="btn" onClick={() => this.fitToViewer_2()}>
           Fit
-        </button>
+        </button> */}
 
-        <hr />
+        {/* <hr /> */}
 
         <ReactSVGPanZoom
           width={1000}
