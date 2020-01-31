@@ -1,21 +1,21 @@
-import React from "react";
+import React from 'react';
 import {
   fitSelection,
   fitToViewer,
   INITIAL_VALUE,
   ReactSVGPanZoom,
   TOOL_NONE,
-  zoomOnViewerCenter
-} from "react-svg-pan-zoom";
+  zoomOnViewerCenter,
+} from 'react-svg-pan-zoom';
 
 export default class App extends React.PureComponent {
   state = {
     currentPosition: { x: 300, y: 400 },
     logPosition: [],
-    traveledPath: "",
+    traveledPath: '',
     d: 0,
     tool: TOOL_NONE,
-    value: INITIAL_VALUE
+    value: INITIAL_VALUE,
   };
   Viewer = null;
 
@@ -23,12 +23,12 @@ export default class App extends React.PureComponent {
     this.Viewer.fitToViewer();
   }
 
-  changeTool(nextTool) {
-    this.setState({ tool: nextTool });
+  changeTool(tool) {
+    this.setState({ tool });
   }
 
-  changeValue(nextValue) {
-    this.setState({ value: nextValue });
+  changeValue(value) {
+    this.setState({ value });
   }
 
   fitToViewer_1() {
@@ -41,7 +41,7 @@ export default class App extends React.PureComponent {
 
   fitSelection_1() {
     this.setState(state => ({
-      value: fitSelection(state.value, 40, 40, 200, 200)
+      value: fitSelection(state.value, 40, 40, 200, 200),
     }));
   }
 
@@ -62,9 +62,9 @@ export default class App extends React.PureComponent {
     this.setState({ currentPosition });
     const logPosition = [...this.state.logPosition, this.state.currentPosition];
     this.setState({ logPosition });
-    const startPoint = "M 100 100";
+    const startPoint = 'M 100 100';
     const path = this.state.logPosition.map(
-      pos => " H " + pos.x + " V " + pos.y
+      pos => ' H ' + pos.x + ' V ' + pos.y
     );
     const traveledPath = startPoint + path;
     this.setState({ traveledPath });
@@ -106,15 +106,15 @@ export default class App extends React.PureComponent {
           onChangeTool={tool => this.changeTool(tool)}
           value={this.state.value}
           onChangeValue={value => this.changeValue(value)}
-          onZoom={e => console.log("zoom")}
-          onPan={e => console.log("pan")}
+          onZoom={e => console.log('zoom')}
+          onPan={e => console.log('pan')}
           onClick={event =>
-            console.log("click", event.x, event.y, event.originalEvent)
+            console.log('click', event.x, event.y, event.originalEvent)
           }
           onMouseMove={e => this.qwe(e)}
         >
           <svg width={1000} height={600} onMouseMove={this.qwe}>
-            {" "}
+            {' '}
             {/* or <svg viewBox="0 0 617 316" */}
             <g fillOpacity=".5" strokeWidth="4">
               <path
