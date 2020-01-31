@@ -16,12 +16,16 @@ export default class App extends React.PureComponent {
     d: 0,
     tool: TOOL_NONE,
     value: INITIAL_VALUE,
+    pathVisible: false,
   };
   Viewer = null;
 
   componentDidMount() {
     this.Viewer.fitToViewer();
   }
+  onPathVisibleChange = () => {
+    this.setState(state => ({ pathVisible: !state.pathVisible }));
+  };
 
   changeTool(tool) {
     this.setState({ tool });
@@ -57,7 +61,7 @@ export default class App extends React.PureComponent {
     this.Viewer.zoomOnViewerCenter(1.1);
   }
 
-  qwe = event => {
+  addPath = event => {
     const currentPosition = { x: event.x, y: event.y };
     this.setState({ currentPosition });
     const logPosition = [...this.state.logPosition, this.state.currentPosition];
@@ -68,7 +72,6 @@ export default class App extends React.PureComponent {
     );
     const traveledPath = startPoint + path;
     this.setState({ traveledPath });
-    console.log(this.state.logPosition);
   };
 
   render() {
@@ -85,9 +88,9 @@ export default class App extends React.PureComponent {
           onClick={event =>
             console.log('click', event.x, event.y, event.originalEvent)
           }
-          onMouseMove={e => this.qwe(e)}
+          onMouseMove={e => this.addPath(e)}
         >
-          <svg width={1000} height={600} onMouseMove={this.qwe}>
+          <svg width={1000} height={600} onMouseMove={this.addPath}>
             <g fillOpacity=".5" strokeWidth="4">
               <path
                 d="M 10 10 H 90 V 66 H 64 V 529 H 139 V 545 H 292 V 529 H 445 V 545 H 600 V 529 H 731 V 545 
@@ -107,11 +110,11 @@ export default class App extends React.PureComponent {
             <path
               d={this.state.traveledPath}
               fill="transparent"
-              stroke="black"
+              stroke={this.state.pathVisible ? 'black' : 'transparent'}
             />
           </svg>
         </ReactSVGPanZoom>
-        <input type="button" value="Путь" onClick={this.hand} />
+        <input type="button" value="Путь" onClick={this.onPathVisibleChange} />
       </div>
     );
   }
