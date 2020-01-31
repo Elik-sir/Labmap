@@ -7,7 +7,7 @@ import {
   TOOL_NONE,
   zoomOnViewerCenter,
 } from 'react-svg-pan-zoom';
-
+import LabMap from './components/LabMap';
 export default class App extends React.PureComponent {
   state = {
     currentPosition: { x: 300, y: 400 },
@@ -61,6 +61,9 @@ export default class App extends React.PureComponent {
     this.Viewer.zoomOnViewerCenter(1.1);
   }
 
+  onClickHandler = event => {
+    //TODO: add this later
+  };
   addPath = event => {
     const currentPosition = { x: event.x, y: event.y };
     this.setState({ currentPosition });
@@ -85,28 +88,19 @@ export default class App extends React.PureComponent {
           onChangeTool={tool => this.changeTool(tool)}
           value={this.state.value}
           onChangeValue={value => this.changeValue(value)}
-          onClick={event =>
-            console.log('click', event.x, event.y, event.originalEvent)
-          }
+          onClick={this.onClickHandler}
           onMouseMove={e => this.addPath(e)}
         >
           <svg width={1000} height={600} onMouseMove={this.addPath}>
-            <g fillOpacity=".5" strokeWidth="4">
-              <path
-                d="M 10 10 H 90 V 66 H 64 V 529 H 139 V 545 H 292 V 529 H 445 V 545 H 600 V 529 H 731 V 545 
-         H 888 V 529 H 938 V 62 H 840 V 10 H 750 V 62 H 480 V 10 H 390 V 62 H 203 V 38 H 189 V 10 "
-                fill="transparent"
-                stroke="black"
-              />
-              <circle
-                r="22"
-                cx={this.state.currentPosition.x}
-                cy={this.state.currentPosition.y}
-                fill="orangered"
-                stroke="crimson"
-                strokeWidth="5"
-              />
-            </g>
+            <LabMap />
+            <circle
+              r="22"
+              cx={this.state.currentPosition.x}
+              cy={this.state.currentPosition.y}
+              fill="orangered"
+              stroke="crimson"
+              strokeWidth="5"
+            />
             <path
               d={this.state.traveledPath}
               fill="transparent"
