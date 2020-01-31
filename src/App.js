@@ -92,9 +92,9 @@ export default class App extends React.PureComponent {
         <button className="btn" onClick={() => this.fitSelection_2()}>
           Zoom area 200x200
         </button>
-        <button className="btn" onClick={() => this.fitToViewer_2()}>
+        {/* <button className="btn" onClick={() => this.fitToViewer_2()}>
           Fit
-        </button>
+        </button> */}
 
         <hr />
 
