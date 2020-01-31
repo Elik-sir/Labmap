@@ -8,6 +8,7 @@ import {
   zoomOnViewerCenter,
 } from 'react-svg-pan-zoom';
 import LabMap from './components/LabMap';
+import PersonCircle from './components/PersonCircle';
 export default class App extends React.PureComponent {
   state = {
     currentPosition: { x: 300, y: 400 },
@@ -78,34 +79,30 @@ export default class App extends React.PureComponent {
   };
 
   render() {
+    const {
+      traveledPath,
+      pathVisible,
+      currentPosition,
+      tool,
+      value,
+    } = this.state;
     return (
       <div>
         <ReactSVGPanZoom
           width={1000}
           height={600}
           ref={Viewer => (this.Viewer = Viewer)}
-          tool={this.state.tool}
+          tool={tool}
           onChangeTool={tool => this.changeTool(tool)}
-          value={this.state.value}
+          value={value}
           onChangeValue={value => this.changeValue(value)}
           onClick={this.onClickHandler}
           onMouseMove={e => this.addPath(e)}
         >
           <svg width={1000} height={600} onMouseMove={this.addPath}>
             <LabMap />
-            <circle
-              r="22"
-              cx={this.state.currentPosition.x}
-              cy={this.state.currentPosition.y}
-              fill="orangered"
-              stroke="crimson"
-              strokeWidth="5"
-            />
-            <path
-              d={this.state.traveledPath}
-              fill="transparent"
-              stroke={this.state.pathVisible ? 'black' : 'transparent'}
-            />
+            <PersonCircle currentPosition={currentPosition} />
+            <PersonPath traveledPath={traveledPath} pathVisible={pathVisible} />
           </svg>
         </ReactSVGPanZoom>
         <input type="button" value="Путь" onClick={this.onPathVisibleChange} />
