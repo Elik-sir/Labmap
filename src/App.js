@@ -1,24 +1,26 @@
-import React from 'react';
+import React from "react";
 import {
   fitSelection,
   fitToViewer,
   INITIAL_VALUE,
   ReactSVGPanZoom,
   TOOL_NONE,
-  zoomOnViewerCenter,
-} from 'react-svg-pan-zoom';
-import LabMap from './components/LabMap';
-import PersonCircle from './components/PersonCircle';
-import PersonPath from './components/PersonPath';
+  zoomOnViewerCenter
+} from "react-svg-pan-zoom";
+import { Responsive, WidthProvider } from "react-grid-layout";
+import LabMap from "./components/LabMap";
+import PersonCircle from "./components/PersonCircle";
+import PersonPath from "./components/PersonPath";
+const ResponsiveGridLayout = WidthProvider(Responsive);
 export default class App extends React.PureComponent {
   state = {
     currentPosition: { x: 300, y: 400 },
     logPosition: [],
-    traveledPath: '',
+    traveledPath: "",
     d: 0,
     tool: TOOL_NONE,
     value: INITIAL_VALUE,
-    pathVisible: false,
+    pathVisible: false
   };
   Viewer = null;
 
@@ -47,7 +49,7 @@ export default class App extends React.PureComponent {
 
   fitSelection_1() {
     this.setState(state => ({
-      value: fitSelection(state.value, 40, 40, 200, 200),
+      value: fitSelection(state.value, 40, 40, 200, 200)
     }));
   }
 
@@ -71,9 +73,9 @@ export default class App extends React.PureComponent {
     this.setState({ currentPosition });
     const logPosition = [...this.state.logPosition, this.state.currentPosition];
     this.setState({ logPosition });
-    const startPoint = 'M 100 100';
+    const startPoint = "M 100 100";
     const path = this.state.logPosition.map(
-      pos => ' H ' + pos.x + ' V ' + pos.y
+      pos => " H " + pos.x + " V " + pos.y
     );
     const traveledPath = startPoint + path;
     this.setState({ traveledPath });
@@ -85,13 +87,13 @@ export default class App extends React.PureComponent {
       pathVisible,
       currentPosition,
       tool,
-      value,
+      value
     } = this.state;
     return (
       <div>
         <ReactSVGPanZoom
-          width={1000}
-          height={600}
+          width={window.innerWidth / 1.5}
+          height={window.innerHeight / 1.1}
           ref={Viewer => (this.Viewer = Viewer)}
           tool={tool}
           onChangeTool={tool => this.changeTool(tool)}
