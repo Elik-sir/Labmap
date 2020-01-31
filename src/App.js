@@ -9,6 +9,7 @@ import {
 } from 'react-svg-pan-zoom';
 import LabMap from './components/LabMap';
 import PersonCircle from './components/PersonCircle';
+import PersonPath from './components/PersonPath';
 export default class App extends React.PureComponent {
   state = {
     currentPosition: { x: 300, y: 400 },
@@ -65,7 +66,7 @@ export default class App extends React.PureComponent {
   onClickHandler = event => {
     //TODO: add this later
   };
-  addPath = event => {
+  pushPathPointToTraveledPath = event => {
     const currentPosition = { x: event.x, y: event.y };
     this.setState({ currentPosition });
     const logPosition = [...this.state.logPosition, this.state.currentPosition];
@@ -97,9 +98,9 @@ export default class App extends React.PureComponent {
           value={value}
           onChangeValue={value => this.changeValue(value)}
           onClick={this.onClickHandler}
-          onMouseMove={e => this.addPath(e)}
+          onMouseMove={e => this.pushPathPointToTraveledPath(e)}
         >
-          <svg width={1000} height={600} onMouseMove={this.addPath}>
+          <svg width={1000} height={600}>
             <LabMap />
             <PersonCircle currentPosition={currentPosition} />
             <PersonPath traveledPath={traveledPath} pathVisible={pathVisible} />
