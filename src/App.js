@@ -1,4 +1,5 @@
 import React from "react";
+import "./App.css";
 import {
   fitSelection,
   fitToViewer,
@@ -7,16 +8,17 @@ import {
   TOOL_NONE,
   zoomOnViewerCenter
 } from "react-svg-pan-zoom";
-import { Responsive, WidthProvider } from "react-grid-layout";
 import LabMap from "./components/LabMap";
 import PersonCircle from "./components/PersonCircle";
 import PersonPath from "./components/PersonPath";
-const ResponsiveGridLayout = WidthProvider(Responsive);
+import Media from "react-media";
+
 export default class App extends React.PureComponent {
   state = {
     currentPosition: { x: 300, y: 400 },
     logPosition: [],
     traveledPath: "",
+    mapSize: { width: 1000, height: 700 },
     d: 0,
     tool: TOOL_NONE,
     value: INITIAL_VALUE,
@@ -39,32 +41,6 @@ export default class App extends React.PureComponent {
     this.setState({ value });
   }
 
-  fitToViewer_1() {
-    this.setState(state => ({ value: fitToViewer(state.value) }));
-  }
-
-  fitToViewer_2() {
-    this.Viewer.fitToViewer();
-  }
-
-  fitSelection_1() {
-    this.setState(state => ({
-      value: fitSelection(state.value, 40, 40, 200, 200)
-    }));
-  }
-
-  fitSelection_2() {
-    this.Viewer.fitSelection(40, 40, 200, 200);
-  }
-
-  zoomOnViewerCenter_1() {
-    this.setState(state => ({ value: zoomOnViewerCenter(state.value, 1.1) }));
-  }
-
-  zoomOnViewerCenter_2() {
-    this.Viewer.zoomOnViewerCenter(1.1);
-  }
-
   onClickHandler = event => {
     //TODO: add this later
   };
@@ -80,6 +56,27 @@ export default class App extends React.PureComponent {
     const traveledPath = startPoint + path;
     this.setState({ traveledPath });
   };
+  onChangeSize(matches) {
+    let mapSize = { x: 0, y: 0 };
+    if (matches.small) {
+      mapSize.width = 400;
+      mapSize.height = 600;
+    }
+    if (matches.medium) {
+      mapSize.width = 650;
+      mapSize.height = 600;
+      // alert("qweqwq");
+    }
+    if (matches.ml) {
+      mapSize.width = 800;
+      mapSize.height = 600;
+    }
+    if (matches.large) {
+      mapSize.width = 1000;
+      mapSize.height = 600;
+    }
+    this.setState({ mapSize });
+  }
 
   render() {
     const {
@@ -90,10 +87,20 @@ export default class App extends React.PureComponent {
       value
     } = this.state;
     return (
-      <div>
+      <div className="zx">
+        <Media
+          queries={{
+            small: "(max-width: 500px)",
+            medium: "(min-width: 501px) and (max-width: 650px)",
+            ml: "(min-width: 651px) and (max-width: 999px)",
+            large: "(min-width: 1000px)"
+          }}
+          onChange={matches => this.onChangeSize(matches)}
+        ></Media>
         <ReactSVGPanZoom
-          width={window.innerWidth / 1.5}
-          height={window.innerHeight / 1.1}
+          className="qq"
+          width={this.state.mapSize.width}
+          height={this.state.mapSize.height}
           ref={Viewer => (this.Viewer = Viewer)}
           tool={tool}
           onChangeTool={tool => this.changeTool(tool)}
