@@ -1,21 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { INITIAL_VALUE, ReactSVGPanZoom, TOOL_NONE } from 'react-svg-pan-zoom';
 import LabMap from './LabMap';
-import PersonCircle from './PersonCircle';
-import PersonPath from './PersonPath';
 
-const MapComponent = props => {
-  const [currentPosition, setCurrentPosition] = useState({ x: 300, y: 400 });
-  const [logPosition, setLogPosition] = useState([]);
-  const [traveledPath, setTraveledPath] = useState('');
+const mapWidth = 1000;
+const mapHeight = 600;
+const MapComponent = ({ children, onMouseMove }) => {
   const [tool, setTool] = useState(TOOL_NONE);
   const [value, setValue] = useState(INITIAL_VALUE);
-  const [pathVisible, setPathVisible] = useState(false);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const Viewer = useRef();
   const targetRef = useRef();
+
   useEffect(() => {
-    // Viewer.fitToViewer();
     if (targetRef.current) {
       setDimensions({
         width: targetRef.current.offsetWidth,
@@ -31,29 +27,13 @@ const MapComponent = props => {
     window.addEventListener('resize', handleResize);
   }, [Viewer]);
 
-  // const onPathVisibleChange = () => setPathVisible(!pathVisible);
-
   const changeTool = tool => setTool(tool);
 
   const changeValue = value => setValue(value);
 
-  const onClickHandler = event => {
-    //TODO: add this later
-  };
-  const pushPathPointToTraveledPath = event => {
-    const currentPosition = { x: event.x, y: event.y };
-    setCurrentPosition(currentPosition);
-    const innerLogPosition = [...logPosition, currentPosition];
-    setLogPosition(innerLogPosition);
-    const startPoint = 'M 100 100';
-    const path = logPosition.map(pos => ' H ' + pos.x + ' V ' + pos.y);
-    const traveledPath = startPoint + path;
-    setTraveledPath(traveledPath);
-  };
-
   return (
     <>
-      <div ref={targetRef} style={{ width: '100vw', height: '100vh' }}>
+      <div ref={targetRef} style={{ width: '100%', height: '100%' }}>
         <ReactSVGPanZoom
           className="qq"
           width={dimensions.width}
@@ -63,16 +43,13 @@ const MapComponent = props => {
           onChangeTool={tool => changeTool(tool)}
           value={value}
           onChangeValue={value => changeValue(value)}
-          onClick={onClickHandler}
-          onMouseMove={e => pushPathPointToTraveledPath(e)}
+          onMouseMove={onMouseMove}
         >
-          <svg width={1000} height={600}>
+          <svg width={mapWidth} height={mapHeight}>
             <LabMap />
-            <PersonCircle currentPosition={currentPosition} />
-            <PersonPath traveledPath={traveledPath} pathVisible={pathVisible} />
+            {children}
           </svg>
         </ReactSVGPanZoom>
-        {/* <input type="button" value="Путь" onClick={onPathVisibleChange} /> */}
       </div>
     </>
   );
